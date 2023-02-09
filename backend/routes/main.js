@@ -13,8 +13,27 @@ module.exports = function (app){
         }
 
         if (checkPath(base + path)) {
-            let files = fs.readdirSync(base + path);
-            res.json(files);
+            let files = fs.readdirSync(base + path).map( (item) => {
+                const isDir = fs.lstatSync(base + path + '/' + item).isDirectory();
+                let size = 0;
+
+                if(!isDir) size = fs.statSync(base + path + '/' + item);
+                const sz = () => {
+                    let s = 0;
+                    if (size.size !== 0 && size.size !== null && size.size !== undefined) s = size.size;
+                    return s;
+                }
+                return {
+                    name: item,
+                    dir: isDir,
+                    size: sz(),
+                };
+            })
+            res.json({
+                path: path,
+                result: true,
+                files: files
+            });
         }
     })
 }
