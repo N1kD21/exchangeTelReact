@@ -1,16 +1,27 @@
 'use strict';
 
-const jsdom = require('jsdom');
-const { JSDOM } = jsdom;
+const cheerio = require('cheerio');
 
 const formation = (arr) => {
-    let res = [];
-    arr.forEach( async(e, i) => {
-        const dom = new JSDOM(e);
-        res[i] = await dom.window.document.querySelector('.phoneNumber').textContent;
+    arr.forEach( (e, i) => {
+        const $ = cheerio.load(e);
+        let str1 = $('.point-currency').text();
+        // put data in object
+        arr[i] = {
+            phone: $('.phoneNumber').text().replace(' ', ''),
+            rates: {
+                sale: str1.slice(0, 5),
+                purchase: str1.slice(6, 11),
+            },
+            define: str1.slice(11),
+            subway: $('.subway').text(),
+            text_address: $('.text-address').text(),
+            publication_time: $('.point-interactions').text(),
+        };
     });
-    return res;
+    return arr;
 };
+
 
 
 module.exports = formation;

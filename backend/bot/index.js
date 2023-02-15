@@ -9,26 +9,21 @@ const token = ENV.tokenTelegramBot;
 // Create a bot that uses 'polling' to fetch new updates
 const bot = new TelegramBot(token, {polling: true});
 
-// Matches "/echo [whatever]"
-/*
-bot.onText(/\/echo (.+)/, (msg, match) => {
-  // 'msg' is the received Message from Telegram
-  // 'match' is the result of executing the regexp above on the text content
-  // of the message
-
-  const chatId  = msg.chat.id;
-  const resp    = scrape(); // the captured "whatever"
-
-  // send back the matched "whatever" to the chat
-  bot.sendMessage(chatId, resp);
-});
-*/
 // Listen for any kind of message. There are different kinds of
 // messages.
 bot.on('message', async (msg) => {
-  const chatId = msg.chat.id;
+  const chatId  = msg.chat.id;
   const resp    = await scrape(); // the captured "whatever"
 
   // send a message to the chat acknowledging receipt of their message
-  bot.sendMessage(chatId, resp);
+  resp.forEach((e) => {
+    //console.log(e);
+    bot.sendMessage(chatId, `  phone: ${e.phone},
+    rates: { sale: ${e.rates.sale}, purchase: ${e.rates.purchase} },
+    define: ${e.define},
+    subway: ${e.subway},
+    text_address: ${e.text_address},
+    publication_time: ${e.publication_time}
+    `);
+  })
 });
