@@ -3,9 +3,11 @@
 const scrape = require('../lib/scrape.js');
 
 
-const routes = async () => {
+const routes = async (who) => {
     const res = await scrape();
-    require('./db.js')(res);
+    if (who === '594504840'){
+        require('./db.js')(res);
+    } 
     return res;
 }
 

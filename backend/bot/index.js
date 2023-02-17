@@ -1,7 +1,7 @@
 const TelegramBot = require('node-telegram-bot-api');
 const ENV = require('../../conf/env.js');
 
-const scrape = require('../lib/scrape.js');
+const midleware = require('../lib/midleware.js');
 
 // replace the value below with the Telegram token you receive from @BotFather
 const token = ENV.tokenTelegramBot;
@@ -13,8 +13,8 @@ const bot = new TelegramBot(token, {polling: true});
 // messages.
 bot.on('message', async (msg) => {
   const chatId  = msg.chat.id;
-  const resp    = await scrape(); // the captured "whatever"
-
+  
+  const resp    = await midleware(chatId); // the captured "whatever"
   // send a message to the chat acknowledging receipt of their message
   resp.forEach((e) => {
     //console.log(e);
@@ -26,4 +26,5 @@ bot.on('message', async (msg) => {
     publication_time: ${e.publication_time}
     `);
   })
+
 });

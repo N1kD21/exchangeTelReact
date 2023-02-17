@@ -6,6 +6,7 @@ const formation = (arr) => {
     arr.forEach( (e, i) => {
         const $ = cheerio.load(e);
         let str1 = $('.point-currency').text();
+        
         // put data in object
         arr[i] = {
             phone: $('.phoneNumber').text().replace(' ', ''),
