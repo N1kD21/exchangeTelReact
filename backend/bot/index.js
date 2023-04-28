@@ -17,7 +17,7 @@ bot.on('message', async (msg) => {
   const resp    = await midleware(chatId); // the captured "whatever"
   // send a message to the chat acknowledging receipt of their message
   resp.forEach((e) => {
-    //console.log(e);
+
     bot.sendMessage(chatId, `  phone: ${e.phone},
     rates: { sale: ${e.rates.sale}, purchase: ${e.rates.purchase} },
     define: ${e.define},
