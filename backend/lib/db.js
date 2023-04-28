@@ -1,4 +1,6 @@
 'use strict';
+
+//request the library for mongoDB
 const mongoose  = require('mongoose');
 const pswd      = require('../../conf/env.js').pswdDB;
 const dbURI        = `mongodb+srv://nikoladmit21:${pswd}@cluster0.uqntjne.mongodb.net/?retryWrites=true&w=majority`;
